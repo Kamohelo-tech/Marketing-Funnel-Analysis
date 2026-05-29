@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing Funnel Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',Arial,sans-serif; background:#f0f2f5; }
+  .topbar { background:#1a1a2e; padding:14px 28px; display:flex; align-items:center; justify-content:space-between; }
+  .topbar h1 { color:#fff; font-size:17px; font-weight:600; }
+  .topbar p { color:rgba(255,255,255,0.45); font-size:11px; margin-top:2px; }
+  .filters { display:flex; gap:10px; }
+  .filters select { background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:6px 12px; border-radius:6px; font-size:12px; cursor:pointer; }
+  .filters select option { background:#1a1a2e; }
+  .body { padding:16px 22px; }
+  .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:16px; }
+  .kpi { background:#fff; border-radius:10px; padding:14px 16px; border:1px solid #e5e7eb; }
+  .kpi-lbl { font-size:10px; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:5px; }
+  .kpi-val { font-size:24px; font-weight:700; }
+  .kpi-sub { font-size:10px; color:#aaa; margin-top:3px; }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+  .row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .card { background:#fff; border-radius:10px; padding:14px 16px; border:1px solid #e5e7eb; }
+  .ctitle { font-size:11px; font-weight:600; color:#444; text-transform:uppercase; letter-spacing:0.4px; margin-bottom:12px; }
+  .alert-red { background:#fef2f2; border-left:3px solid #ef4444; padding:7px 10px; border-radius:0 6px 6px 0; font-size:10px; color:#991b1b; margin-top:10px; }
+  .alert-green { background:#f0faf5; border-left:3px solid #1D9E75; padding:7px 10px; border-radius:0 6px 6px 0; font-size:10px; color:#065f46; margin-top:10px; }
+  .alert-yellow { background:#fffbeb; border-left:3px solid #f59e0b; padding:7px 10px; border-radius:0 6px 6px 0; font-size:10px; color:#92400e; margin-top:10px; }
+  .funnel-wrap { display:flex; flex-direction:column; gap:6px; padding:4px 0; }
+  .funnel-stage { display:flex; align-items:center; gap:10px; }
+  .funnel-bar-wrap { flex:1; }
+  .funnel-label { font-size:10px; color:#555; width:110px; flex-shrink:0; }
+  .funnel-bar { height:28px; border-radius:4px; display:flex; align-items:center; padding-left:10px; transition:width 0.4s; }
+  .funnel-val { font-size:11px; font-weight:600; color:#fff; }
+  .funnel-pct { font-size:10px; color:#888; width:44px; text-align:right; flex-shrink:0; }
+  footer { text-align:center; padding:14px; font-size:10px; color:#bbb; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <h1>Marketing Funnel & Conversion Performance Dashboard</h1>
+    <p>Bank Marketing Campaign &nbsp;|&nbsp; 45,211 Contacts &nbsp;|&nbsp; Future Interns Task 3 (2026) &nbsp;|&nbsp; Kamohelo Mabena</p>
+  </div>
+  <div class="filters">
+    <select id="channelFilter" onchange="applyFilters()">
+      <option value="All">Channel: All</option>
+      <option value="Cellular">Cellular Only</option>
+      <option value="Telephone">Landline Only</option>
+    </select>
+    <select id="segmentFilter" onchange="applyFilters()">
+      <option value="All">Segment: All</option>
+      <option value="student">Student</option>
+      <option value="retired">Retired</option>
+      <option value="management">Management</option>
+      <option value="blue-collar">Blue-Collar</option>
+    </select>
+    <select id="monthFilter" onchange="applyFilters()">
+      <option value="All">Month: All</option>
+      <option value="mar">March</option>
+      <option value="sep">September</option>
+      <option value="dec">December</option>
+      <option value="may">May</option>
+    </select>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-lbl">Total Contacts</div>
+      <div class="kpi-val" style="color:#1a1a2e;" id="kpi-contacts">45,211</div>
+      <div class="kpi-sub">Campaign outreach volume</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lbl">Total Conversions</div>
+      <div class="kpi-val" style="color:#1D9E75;" id="kpi-conv">5,289</div>
+      <div class="kpi-sub">Subscribed to term deposit</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lbl">Conversion Rate</div>
+      <div class="kpi-val" id="kpi-rate" style="color:#1D9E75;">11.3%</div>
+      <div class="kpi-sub" id="kpi-rate-sub">Aligned with industry benchmark</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-lbl">Avg Contacts / Lead</div>
+      <div class="kpi-val" style="color:#EF9F27;" id="kpi-avg">2.6</div>
+      <div class="kpi-sub">Before conversion or drop-off</div>
+    </div>
+  </div>
+
+  <div class="row2">
+    <div class="card">
+      <div class="ctitle">Marketing funnel — stage drop-off</div>
+      <div class="funnel-wrap" id="funnelWrap">
+        <div class="funnel-stage">
+          <span class="funnel-label">Total Contacts</span>
+          <div class="funnel-bar-wrap">
+            <div class="funnel-bar" style="width:100%;background:#378ADD;">
+              <span class="funnel-val">45,211</span>
+            </div>
+          </div>
+          <span class="funnel-pct">100%</span>
+        </div>
+        <div class="funnel-stage">
+          <span class="funnel-label">Engaged</span>
+          <div class="funnel-bar-wrap">
+            <div class="funnel-bar" style="width:80%;background:#1D9E75;">
+              <span class="funnel-val">36,169</span>
+            </div>
+          </div>
+          <span class="funnel-pct">80.0%</span>
+        </div>
+        <div class="funnel-stage">
+          <span class="funnel-label">Interested</span>
+          <div class="funnel-bar-wrap">
+            <div class="funnel-bar" style="width:40%;background:#EF9F27;">
+              <span class="funnel-val">18,084</span>
+            </div>
+          </div>
+          <span class="funnel-pct">40.0%</span>
+        </div>
+        <div class="funnel-stage">
+          <span class="funnel-label">Converted</span>
+          <div class="funnel-bar-wrap">
+            <div class="funnel-bar" style="width:11.3%;background:#E24B4A;">
+              <span class="funnel-val">5,289</span>
+            </div>
+          </div>
+          <span class="funnel-pct">11.3%</span>
+        </div>
+      </div>
+      <div class="alert-red">Biggest drop-off: 28.7% of interested leads don't convert — fix the mid-funnel pitch</div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">Monthly conversion rate trend</div>
+      <div style="position:relative;height:190px;">
+        <canvas id="monthChart" role="img" aria-label="Line chart showing monthly conversion rates with peaks in March, September and December"></canvas>
+      </div>
+      <div class="alert-yellow">May: 13,766 contacts but only 6.4% conversion — reduce outreach in this month</div>
+    </div>
+  </div>
+
+  <div class="row3">
+    <div class="card">
+      <div class="ctitle">Conversion by channel</div>
+      <div style="position:relative;height:180px;">
+        <canvas id="channelChart" role="img" aria-label="Bar chart: Cellular 14.8%, Landline 8.6%"></canvas>
+      </div>
+      <div class="alert-green">Cellular converts 72% better than landline — go mobile-first</div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">Conversion by contact frequency</div>
+      <div style="position:relative;height:180px;">
+        <canvas id="freqChart" role="img" aria-label="Bar chart showing conversion drops from 17.8% at 1 contact to 3.1% at 7+ contacts"></canvas>
+      </div>
+      <div class="alert-red">Stop at 3 contacts — beyond that conversion is below 7%</div>
+    </div>
+
+    <div class="card">
+      <div class="ctitle">Conversion by customer segment</div>
+      <div style="position:relative;height:180px;">
+        <canvas id="segmentChart" role="img" aria-label="Bar chart showing student and retired segments have highest conversion rates"></canvas>
+      </div>
+      <div class="alert-green">Students (31.4%) and retirees (25.2%) convert at 3x the average</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>Marketing Funnel Dashboard &nbsp;|&nbsp; Future Interns Task 3 (2026) &nbsp;|&nbsp; Kamohelo Mabena &nbsp;|&nbsp; Built with HTML & Chart.js</footer>
+
+<script>
+let monthChart, channelChart, freqChart, segmentChart;
+
+const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const monthRates = [7.2, 8.1, 51.2, 9.4, 6.4, 8.8, 9.1, 10.2, 44.9, 42.3, 9.8, 47.6];
+const monthColors = monthRates.map(v => v > 30 ? '#1D9E75' : v < 8 ? '#E24B4A' : '#378ADD');
+
+function initCharts() {
+  monthChart = new Chart(document.getElementById('monthChart'), {
+    type: 'bar',
+    data: {
+      labels: monthLabels,
+      datasets: [{
+        label: 'Conversion Rate %',
+        data: monthRates,
+        backgroundColor: monthColors,
+        borderWidth: 0, borderRadius: 4
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ticks:{font:{size:9},color:'#777'},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#999',callback:v=>v+'%'},grid:{color:'rgba(0,0,0,0.05)'}}
+      }
+    }
+  });
+
+  channelChart = new Chart(document.getElementById('channelChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Cellular\n(Mobile)','Telephone\n(Landline)'],
+      datasets: [{
+        label: 'Conversion Rate %',
+        data: [14.8, 8.6],
+        backgroundColor: ['#1D9E75','#E24B4A'],
+        borderWidth: 0, borderRadius: 6
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ticks:{font:{size:10},color:'#666'},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#999',callback:v=>v+'%'},grid:{color:'rgba(0,0,0,0.05)'},max:20}
+      }
+    }
+  });
+
+  freqChart = new Chart(document.getElementById('freqChart'), {
+    type: 'bar',
+    data: {
+      labels: ['1 contact','2–3','4–6','7+'],
+      datasets: [{
+        label: 'Conversion Rate %',
+        data: [17.8, 13.2, 7.4, 3.1],
+        backgroundColor: ['#1D9E75','#378ADD','#EF9F27','#E24B4A'],
+        borderWidth: 0, borderRadius: 6
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ticks:{font:{size:10},color:'#666'},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#999',callback:v=>v+'%'},grid:{color:'rgba(0,0,0,0.05)'},max:25}
+      }
+    }
+  });
+
+  segmentChart = new Chart(document.getElementById('segmentChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Student','Retired','Mgmt','Tech','Blue-collar'],
+      datasets: [{
+        label: 'Conversion Rate %',
+        data: [31.4, 25.2, 13.6, 11.3, 7.1],
+        backgroundColor: ['#1D9E75','#1D9E75','#378ADD','#EF9F27','#E24B4A'],
+        borderWidth: 0, borderRadius: 5
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ticks:{font:{size:9},color:'#666'},grid:{display:false}},
+        y:{ticks:{font:{size:9},color:'#999',callback:v=>v+'%'},grid:{color:'rgba(0,0,0,0.05)'},max:40}
+      }
+    }
+  });
+}
+
+function applyFilters() {
+  const channel = document.getElementById('channelFilter').value;
+  const segment = document.getElementById('segmentFilter').value;
+  const month = document.getElementById('monthFilter').value;
+
+  const channelData = {
+    'All': {contacts:45211, rate:11.3, avg:2.6},
+    'Cellular': {contacts:29285, rate:14.8, avg:2.4},
+    'Telephone': {contacts:15926, rate:8.6, avg:2.9}
+  };
+  const segData = {
+    'All': {contacts:45211, rate:11.3},
+    'student': {contacts:875, rate:31.4},
+    'retired': {contacts:2264, rate:25.2},
+    'management': {contacts:9458, rate:13.6},
+    'blue-collar': {contacts:9732, rate:7.1}
+  };
+  const monthData = {
+    'All': {contacts:45211, rate:11.3},
+    'mar': {contacts:477, rate:51.2},
+    'sep': {contacts:570, rate:44.9},
+    'dec': {contacts:214, rate:47.6},
+    'may': {contacts:13766, rate:6.4}
+  };
+
+  let cd = channelData[channel] || channelData['All'];
+  let sd = segData[segment] || segData['All'];
+  let md = monthData[month] || monthData['All'];
+
+  const contacts = month !== 'All' ? md.contacts : channel !== 'All' ? cd.contacts : segment !== 'All' ? sd.contacts : 45211;
+  const rate = month !== 'All' ? md.rate : channel !== 'All' ? cd.rate : segment !== 'All' ? sd.rate : 11.3;
+  const convs = Math.round(contacts * rate / 100);
+
+  document.getElementById('kpi-contacts').textContent = contacts.toLocaleString();
+  document.getElementById('kpi-conv').textContent = convs.toLocaleString();
+  document.getElementById('kpi-rate').textContent = rate.toFixed(1) + '%';
+  document.getElementById('kpi-rate').style.color = rate >= 11 ? '#1D9E75' : '#E24B4A';
+  document.getElementById('kpi-avg').textContent = cd.avg || 2.6;
+
+  // Update channel chart
+  if (channel === 'Cellular') {
+    channelChart.data.datasets[0].data = [14.8, 0];
+  } else if (channel === 'Telephone') {
+    channelChart.data.datasets[0].data = [0, 8.6];
+  } else {
+    channelChart.data.datasets[0].data = [14.8, 8.6];
+  }
+  channelChart.update();
+
+  // Update segment chart
+  const allSegData = [31.4, 25.2, 13.6, 11.3, 7.1];
+  const segMap = {'student':0,'retired':1,'management':2,'technician':3,'blue-collar':4};
+  if (segment !== 'All' && segMap[segment] !== undefined) {
+    const highlighted = allSegData.map((v,i) => i === segMap[segment] ? v : v*0.3);
+    segmentChart.data.datasets[0].data = highlighted;
+  } else {
+    segmentChart.data.datasets[0].data = allSegData;
+  }
+  segmentChart.update();
+
+  // Update month chart highlight
+  if (month !== 'All') {
+    const monthIdx = {'jan':0,'feb':1,'mar':2,'apr':3,'may':4,'jun':5,'jul':6,'aug':7,'sep':8,'oct':9,'nov':10,'dec':11};
+    const idx = monthIdx[month];
+    const highlighted = monthRates.map((v,i) => i === idx ? v : v * 0.3);
+    monthChart.data.datasets[0].data = highlighted;
+    monthChart.data.datasets[0].backgroundColor = monthRates.map((v,i) => {
+      if (i !== idx) return 'rgba(200,200,200,0.4)';
+      return v > 30 ? '#1D9E75' : v < 8 ? '#E24B4A' : '#378ADD';
+    });
+  } else {
+    monthChart.data.datasets[0].data = monthRates;
+    monthChart.data.datasets[0].backgroundColor = monthColors;
+  }
+  monthChart.update();
+}
+
+initCharts();
+</script>
+</body>
+</html>
