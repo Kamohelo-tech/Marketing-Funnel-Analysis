@@ -116,18 +116,3 @@ Avg Contacts = AVERAGE('Bank'[campaign])
 
 Drop-off Rate = 1 - [Conversion Rate]
 ```
-
----
-
-## 👤 About
-
-**Kamohelo Mabena**
-Future Interns Data Science & Analytics Internship Programme (2026)
-
-📎 LinkedIn: *[Add your LinkedIn URL here]*
-📁 Task 1: *[Superstore Sales Dashboard — GitHub link]*
-📁 Task 2: *[Customer Churn Analysis — GitHub link]*
-
----
-
-*Built with Microsoft Excel and Power BI Desktop.*
