@@ -66,7 +66,7 @@ This project presents a marketing funnel and conversion performance analysis for
 1. **Overall conversion rate is 11.3%** - aligned with direct marketing benchmarks but with clear room to improve
 2. **Biggest drop-off is in the mid-funnel** - 28.7% of engaged leads don't convert despite showing interest
 3. **Cellular contacts convert at 14.8%** - 72% better than landline (8.6%)
-4. **March, September and December have 44–51% conversion rates** - far above the annual average
+4. **March, September and December have 44-51% conversion rates** - far above the annual average
 5. **May has 13,766 contacts but only 6.4% conversion** - massive budget waste
 6. **Conversion drops to 3.1% after 7+ contact attempts** - diminishing returns are severe
 7. **Students (31.4%) and retirees (25.2%) convert at 3-4x the overall rate**
