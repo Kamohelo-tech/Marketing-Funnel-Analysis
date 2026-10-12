@@ -24,7 +24,7 @@ This project presents a marketing funnel and conversion performance analysis for
 
 ##  Dashboard Preview
 
-![Dashboard Screenshot](./funnel_dashboard_screenshot.png)
+![Dashboard Screenshot](<./Screenshot 2026-05-29 100007.png>)
 
 ---
 
@@ -88,7 +88,7 @@ This project presents a marketing funnel and conversion performance analysis for
 
 ##  Dataset
 
-- **Source:** [Bank Marketing Dataset — UCI](https://archive.ics.uci.edu/dataset/222/bank+marketing)
+- **Source:** [Bank Marketing Dataset - UCI](https://archive.ics.uci.edu/dataset/222/bank+marketing)
 - **Size:** 45,211 rows × 17 columns
 - **Features:** Age, job, marital status, education, contact type, month, duration, campaign contacts, previous outcome, subscription result
 
