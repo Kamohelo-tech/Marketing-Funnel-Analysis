@@ -73,7 +73,7 @@ This project presents a marketing funnel and conversion performance analysis for
 
 ---
 
-## ✅ Recommendations
+##  Recommendations
 
 | Priority | Recommendation | Expected Impact |
 |----------|----------------|-----------------|
