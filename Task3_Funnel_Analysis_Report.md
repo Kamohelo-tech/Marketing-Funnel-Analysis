@@ -100,7 +100,7 @@ Customer job type and age significantly influence conversion rates. Students and
 | Technician | 7,597 | 11.3% |
 | Blue-collar | 9,732 | 7.1%  |
 
-**Recommendation:** Re-allocate campaign budget toward student and retired segments which convert at 2–4x the rate of blue-collar workers. Build tailored messaging for each high-value segment rather than a generic pitch.
+**Recommendation:** Re-allocate campaign budget toward student and retired segments which convert at 2-4x the rate of blue-collar workers. Build tailored messaging for each high-value segment rather than a generic pitch.
 
 ---
 
