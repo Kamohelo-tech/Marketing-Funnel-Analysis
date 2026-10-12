@@ -6,7 +6,7 @@
 - **Tools Used:** Microsoft Excel | Power BI Desktop
 - **Total Leads Analysed:** 45,211
 - **Prepared by:** Kamohelo Mabena
-- **Programme:** Future Interns — Data Science & Analytics Task 3 (2026)
+- **Programme:** Future Interns - Data Science & Analytics Task 3 (2026)
 
 ---
 
@@ -106,13 +106,13 @@ Customer job type and age significantly influence conversion rates. Students and
 
 ## 8. Summary Recommendations
 
-1. **Go mobile-first:** Shift outreach budget to cellular contacts (target 85%+ of all contacts). Cellular converts at 14.8% vs 8.6% for landline - the single easiest win available.
+1. **Go mobile-first:** Shift outreach budget to cellular contacts (target 85%+ of all contacts). Cellular converts at 14.8% vs 8.6% for landline the single easiest win available.
 
 2. **Time campaigns strategically:** Concentrate high-volume outreach in March, September, and December. Dramatically reduce May outreach which wastes budget on low-conversion contacts.
 
-3. **Cap contact attempts at 3:** Stop contacting leads after 3 attempts. Conversion drops to 3.1% at 7+ contacts — those resources are better spent on fresh leads.
+3. **Cap contact attempts at 3:** Stop contacting leads after 3 attempts. Conversion drops to 3.1% at 7+ contacts those resources are better spent on fresh leads.
 
-4. **Target high-converting segments first:** Prioritise students (31.4%) and retired customers (25.2%) in campaign lists. These segments convert at 3–4x the rate of the overall average.
+4. **Target high-converting segments first:** Prioritise students (31.4%) and retired customers (25.2%) in campaign lists. These segments convert at 3-4x the rate of the overall average.
 
 5. **Improve the mid-funnel:** 28.7% of engaged leads don't convert despite showing interest. Improve the sales script, offer clarity, and follow-up timing to recover this lost segment.
 
@@ -124,7 +124,7 @@ Customer job type and age significantly influence conversion rates. Students and
 
 **Data Source:** Bank Marketing Campaign Dataset (UCI Machine Learning Repository). The dataset contains 45,211 records from a Portuguese bank's direct marketing campaign, with 17 features including customer demographics, contact details, campaign history, and subscription outcome.
 
-**Data Cleaning:** Performed in Microsoft Excel - verified no missing values, standardised categorical columns (contact type, month, job), created conversion flag (1=yes, 0=no), and added contact frequency grouping column.
+**Data Cleaning:** Performed in Microsoft Excel verified no missing values, standardised categorical columns (contact type, month, job), created conversion flag (1=yes, 0=no), and added contact frequency grouping column.
 
 **Analysis & Visualisation:** Conducted in Power BI Desktop. Six interactive visuals built: 4 KPI cards, funnel chart, channel comparison bar chart, monthly conversion line chart, contact frequency chart, and customer segment bar chart.
 
