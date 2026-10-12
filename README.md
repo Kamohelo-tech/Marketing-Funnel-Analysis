@@ -49,7 +49,7 @@ This project presents a marketing funnel and conversion performance analysis for
 
 ---
 
-## 📊 Dashboard Visuals
+##  Dashboard Visuals
 
 1. **4 KPI Cards** - Total Contacts (45,211), Conversions (5,289), Conversion Rate (11.3%), Avg Contacts (2.6)
 2. **Marketing Funnel Chart** - Visual drop-off at each stage
@@ -61,7 +61,7 @@ This project presents a marketing funnel and conversion performance analysis for
 
 ---
 
-## 🔍 Key Insights
+##  Key Insights
 
 1. **Overall conversion rate is 11.3%** - aligned with direct marketing benchmarks but with clear room to improve
 2. **Biggest drop-off is in the mid-funnel** - 28.7% of engaged leads don't convert despite showing interest
